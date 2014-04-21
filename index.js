@@ -24,7 +24,7 @@
     }
 
     CssSelect.prototype.bind = function() {
-      return this.el.on('change', 'select', this.onChange);
+      return this.el.on('click', 'select', this.onChange, false);
     };
 
     CssSelect.prototype.load = function() {
@@ -56,13 +56,14 @@
     };
 
     CssSelect.prototype.onChange = function(ev) {
-      var select;
-      select = ev.target;
-      this.setText(select.previousElementSibling, select.value);
+      var select, value, _ref;
+      select = (_ref = ev.target) != null ? _ref : ev.srcElement;
+      value = this.getText(select.options[select.selectedIndex]);
+      this.setText(this.previousElementSibling(select), value);
     };
 
     CssSelect.prototype.setText = function(el, text) {
-      if (el.textContent) {
+      if (el.textContent != null) {
         el.textContent = text;
       } else {
         el.innerText = text;
@@ -70,11 +71,26 @@
     };
 
     CssSelect.prototype.getText = function(el) {
-      if (el.textContent) {
+      if (el.textContent != null) {
         return el.textContent;
       } else {
         return el.innerText;
       }
+    };
+
+    CssSelect.prototype.previousElementSibling = function(el) {
+      var cur, prev;
+      prev = null;
+      if (el.previousElementSibling != null) {
+        prev = el.previousElementSibling;
+      } else {
+        cur = el.previousSibling;
+        while (cur.nodeType !== 1) {
+          cur = cur.previousSibling;
+        }
+        prev = cur;
+      }
+      return prev;
     };
 
     return CssSelect;

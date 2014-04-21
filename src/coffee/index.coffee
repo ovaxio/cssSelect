@@ -18,13 +18,15 @@ class CssSelect
     @bind()
 
   bind: ()->
-    @el.on 'change', 'select', @onChange
+    @el.on 'click', 'select', @onChange, false
 
+  # set all the select
   load: ()->
     @select = @el.find 'select'
     old = @select
     @transform el for el in @select
 
+  # transform the HTML select to a 'everywhere the same' select
   transform: (el)->
     el = dom el
     old = el.clone()
@@ -42,21 +44,35 @@ class CssSelect
     return
 
   onChange: (ev)=>
-    select = ev.target
-    @setText select.previousElementSibling, select.value
+    select = ev.target ? ev.srcElement # srcElement for IE
+    value = @getText(select.options[select.selectedIndex])
+    @setText @previousElementSibling(select), value
     return
 
   setText: (el,text)->
-    if el.textContent
+    if el.textContent?
       el.textContent = text
     else
       el.innerText = text
     return
 
   getText: (el)->
-    if el.textContent
+    if el.textContent?
       return el.textContent
     else
       return el.innerText
+
+  previousElementSibling: (el)->
+    prev = null
+
+    if el.previousElementSibling?
+      prev = el.previousElementSibling
+    else
+      cur = el.previousSibling
+      while cur.nodeType != 1
+        cur = cur.previousSibling
+      prev = cur
+
+    return prev
 
 module.exports = CssSelect
