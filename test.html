@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>test cssSelect</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <style type="text/css">
+  body{background: #ddd;}
+  form{
+    width: 800px;
+    margin: 0 auto;
+  }
+
+  .field{
+    margin: 1em;
+  }
+  select {padding: .5em}
+
+  .placeholder{padding: .5em;}
+  </style>
+</head>
+<body>
+
+<form>
+  <div>
+    <div class="field">
+      <select style="background:red;">
+        <option>test1</option>
+        <option>test2</option>
+        <option>test3</option>
+        <option>test4</option>
+      </select>
+    </div>
+
+  <div class="field">
+      <select>
+        <option>test5</option>
+        <option>test6</option>
+        <option>test7</option>
+        <option>test8</option>
+      </select>
+    </div>
+
+  <div class="field">
+      <select>
+        <option>test9</option>
+        <option>test10</option>
+        <option>test11</option>
+        <option>test12</option>
+      </select>
+    </div>
+</form>
+
+<script type="text/javascript" src="build/build.js"></script>
+<script type="text/javascript">
+  var CssSelect = require('cssSelect');
+
+  var form = document.querySelector('form');
+
+  var newSelect = new CssSelect(form, {'addClass': 'test'});
+</script>
+</body>
+</html>

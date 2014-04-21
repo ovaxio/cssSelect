@@ -29,27 +29,34 @@ class CssSelect
     el = dom el
     old = el.clone()
     template = html.clone()
-    template.find 'select'
-      .replace old
+    select = template.find 'select'
+    select.replace old
 
-
-    # template.find 'select'
-    #   .forEach (select,i)->
-    #     template.find '.placeholder'
-    #       .forEach (placeholder,j)->
-    #         # placeholder.style = window.getComputedStyle select
-    #         console.log window.getComputedStyle select
-    #         # console.log 1,select.style.background
-    #         # console.log 2,placeholder.style.background
-    #   # .css 'height', el[0].offsetHeight
+    value = @getText old.find('option')[0]
+    @setText template.find('.placeholder')[0], value
 
     if @options.class isnt ''
       template.addClass @options.class
 
     el.replace template
+    return
 
-  onChange: (ev)->
+  onChange: (ev)=>
     select = ev.target
-    select.previousElementSibling.innerText = select.value
+    @setText select.previousElementSibling, select.value
+    return
+
+  setText: (el,text)->
+    if el.textContent
+      el.textContent = text
+    else
+      el.innerText = text
+    return
+
+  getText: (el)->
+    if el.textContent
+      return el.textContent
+    else
+      return el.innerText
 
 module.exports = CssSelect

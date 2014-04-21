@@ -1,5 +1,6 @@
 (function() {
-  var CssSelect, dom, extend, html;
+  var CssSelect, dom, extend, html,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   dom = require('dom');
 
@@ -12,6 +13,7 @@
       var defaults;
       this.el = el;
       this.options = options;
+      this.onChange = __bind(this.onChange, this);
       defaults = {
         "class": ''
       };
@@ -39,21 +41,40 @@
     };
 
     CssSelect.prototype.transform = function(el) {
-      var old, template;
+      var old, select, template, value;
       el = dom(el);
       old = el.clone();
       template = html.clone();
-      template.find('select').replace(old);
+      select = template.find('select');
+      select.replace(old);
+      value = this.getText(old.find('option')[0]);
+      this.setText(template.find('.placeholder')[0], value);
       if (this.options["class"] !== '') {
         template.addClass(this.options["class"]);
       }
-      return el.replace(template);
+      el.replace(template);
     };
 
     CssSelect.prototype.onChange = function(ev) {
       var select;
       select = ev.target;
-      return select.previousElementSibling.innerText = select.value;
+      this.setText(select.previousElementSibling, select.value);
+    };
+
+    CssSelect.prototype.setText = function(el, text) {
+      if (el.textContent) {
+        el.textContent = text;
+      } else {
+        el.innerText = text;
+      }
+    };
+
+    CssSelect.prototype.getText = function(el) {
+      if (el.textContent) {
+        return el.textContent;
+      } else {
+        return el.innerText;
+      }
     };
 
     return CssSelect;
