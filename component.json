@@ -1,0 +1,26 @@
+{
+  "name": "cssSelect",
+  "repo": "ovaxio/cssSelect",
+  "description": "have the same render of select element in all the browser with css and js",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/dom": "*",
+    "segmentio/extend": "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "templates": [
+    "template.html"
+  ],
+  "styles": [
+    "cssSelect.css"
+  ],
+  "images": [
+    "img/select.png"
+  ]
+}
